@@ -1,0 +1,192 @@
+openapi: 3.0.1
+info:
+  title: G2 All in one tool
+  description: |
+    G2 All in one tool
+  version: '0.1'
+servers:
+  - url: /
+tags:
+  - name: team
+    description: APIs related to Teams
+paths:
+  /team:
+    post:
+      tags:
+        - team
+      description: 'Create team'
+      operationId: createTeam
+      parameters:
+        - name: api-key
+          in: header
+          required: true
+          schema:
+            type: string
+            example: ffrgdwxvbgfbn
+      requestBody:
+        description: |
+          Request info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeam'
+        required: true
+      responses:
+        200:
+          description: Create team dice successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  datetime:
+                    type: string
+                    example: '2020-09-08T07:57:50.610Z'
+                  status:
+                    type: string
+                    example: success
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    $ref: '#/components/schemas/ResponseCreateTeamSuccess'
+
+        422:
+          description: Data invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataInvalid'
+
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+components:
+  schemas:
+    CreateTeam:
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            required: true
+          example: 'User-example'
+        group_id:
+          type: string
+          description: |
+            required: true
+          example: 'QNlUPWLATLXrThH2tNF08EoJAg53'
+
+    ResponseCreateTeamSuccess:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'QNlUPWLATLXrThH2tNF08EoJAg53'
+        name:
+          type: string
+          example: 'NodeJs Team'
+        status:
+          type: integer
+          example: 1
+        group_id:
+          type: string
+          example: 'QNlUPWLATLXrThH2tNF08EoJAg53'
+        user_create_id:
+          type: string
+          example: 'QNlUPWLATLXrThH2tNF08EoJAg53'
+        create_date:
+          type: string
+          example: '2020-09-08T07:57:50.610Z'
+        update_date:
+          type: string
+          example: '2020-09-08T07:57:50.610Z'
+    InternalServerError:
+      type: object
+      properties:
+        datetime:
+          type: string
+          example: '2020-09-08T07:57:50.610Z'
+        status:
+          type: string
+          example: 'error'
+        code:
+          type: integer
+          example: 500
+        message:
+          type: string
+          example: 'Internal Server Error'
+        error:
+          type: string
+          example: Error
+
+    DataInvalid:
+      type: object
+      properties:
+        datetime:
+          type: string
+          example: '2020-09-08T07:57:50.610Z'
+        status:
+          type: string
+          example: error
+        code:
+          type: integer
+          example: 422
+        message:
+          type: string
+          example: Data entered is not valid!
+        error:
+          type: array
+          items:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: 'name is a required field'
+              param:
+                type: string
+                example: 'name'
+    Forbidden:
+      type: object
+      properties:
+        datetime:
+          type: string
+          example: '2020-09-08T07:57:50.610Z'
+        status:
+          type: string
+          example: 'error'
+        code:
+          type: integer
+          example: 403
+        message:
+          type: string
+          example: 'Access denied'
+        error:
+          type: string
+          example: Error
+
+    Unauthorized:
+      type: string
+      example: Unauthorized
+    NotFound:
+      type: object
+      properties:
+        datetime:
+          type: string
+          example: '2020-09-08T07:57:50.610Z'
+        status:
+          type: string
+          example: 'error'
+        code:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: 'Not found'
+        error:
+          type: string
+          example: Error
